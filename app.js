@@ -13,7 +13,7 @@ function createGameboard () {
     const getBoard = () => board;
 
     const printBoard = () => {
-        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue))
+        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
         console.log(boardWithCellValues);
     }
 
