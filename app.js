@@ -28,3 +28,20 @@ function Cell() {
 
     return {getValue}
 }
+
+function GameController(playerOne = "Player One", playerTwo = "Player Two"){
+    
+    const board = createGameboard();
+
+    const players = [
+        {
+            name: playerOne,
+            token: 1,
+        },
+        {
+            name: playerTwo,
+            token: 2,
+        }
+    ];
+
+}
