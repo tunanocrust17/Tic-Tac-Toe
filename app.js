@@ -7,29 +7,16 @@ function createGameboard () {
         if(board[position] === 0 ){
             board[position]= player;
         } else {
-            return
+            console.log("try again")
         }
     };
     
     const printBoard = () => {
-        // const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
         console.log(getBoard());
     }
 
     return {getBoard,inputMarker, printBoard};
 
-}
-
-function Cell() {
-    let value = 0;
-
-    const addToken = (player) => {
-        value = player;
-    };
-
-    const getValue = () => value;
-
-    return {getValue, addToken}
 }
 
 function GameController(playerOne = "Player One", playerTwo = "Player Two"){
