@@ -44,4 +44,16 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         }
     ];
 
+    let currentPlayer = players[0];
+
+    const switchPlayerTurn = () => {
+        if (currentPlayer === players[0]){
+            currentPlayer = players[1]
+        } else{
+            currentPlayer = players[0]
+        }
+    };
+
+    const getActivePlayer = () => currentPlayer;
+
 }
