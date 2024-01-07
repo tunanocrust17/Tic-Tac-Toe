@@ -1,3 +1,11 @@
+let boardBox = document.querySelectorAll('.box');
+
+boardBox.forEach((item)=>{
+    item.addEventListener('click', ()=>{
+        alert("hi!")
+    })
+})
+
 function createGameboard () {
     const board = [0,0,0,0,0,0,0,0,0];
 
@@ -5,9 +13,9 @@ function createGameboard () {
 
     const inputMarker = (position, player) => {
         if(board[position] === 0 ){
-            board[position]= player;
+            board[position] = player;
         } else {
-            console.log("try again")
+            console.log("spot already taken, try again")
         }
     };
     
