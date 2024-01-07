@@ -1,0 +1,16 @@
+.board {
+
+}
+
+.firstRow, .secondRow, .thirdRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.box {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    height: 50px;
+    width: 50px;
+}
