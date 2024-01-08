@@ -12,11 +12,7 @@ function createGameboard () {
     const getBoard = () => board;
 
     const inputMarker = (position, player) => {
-        if(board[position] === 0 ){
             board[position] = player;
-        } else {
-            console.log("spot already taken, try again")
-        }
     };
     
     const printBoard = () => {
@@ -24,7 +20,6 @@ function createGameboard () {
     }
 
     return {getBoard,inputMarker, printBoard};
-
 }
 
 function GameController(playerOne = "Player One", playerTwo = "Player Two"){
@@ -60,10 +55,14 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     }
 
     const playRound = (position) => {
+        if (board.getBoard()[position] === 0) {
         board.inputMarker(position, getActivePlayer().token)
-
         switchPlayerTurn();
         printNewRound();
+        } else {
+            console.log("Whoops, this spots already taken. Try again!")
+            return
+        }
     }
 
     printNewRound();
