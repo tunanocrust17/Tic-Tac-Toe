@@ -9,6 +9,17 @@ boardBox.forEach((item)=>{
 function createGameboard () {
     const board = [0,0,0,0,0,0,0,0,0];
 
+    const winningCombos = [
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,4,8],
+        [2,4,6]
+    ];
+
     const getBoard = () => board;
 
     const inputMarker = (position, player) => {
@@ -63,6 +74,11 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
             console.log("Whoops, this spots already taken. Try again!")
             return
         }
+
+        for(let i = 0; i <=7; i++){
+
+        }
+
     }
 
     printNewRound();
