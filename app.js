@@ -1,8 +1,9 @@
 let boardBox = document.querySelectorAll('.box');
 
 boardBox.forEach((item)=>{
-    item.addEventListener('click', ()=>{
-        alert("hi!")
+    item.addEventListener('click', (e)=>{
+        const clickedBox = e.target.id;
+        game.playRound(clickedBox);
     })
 })
 
