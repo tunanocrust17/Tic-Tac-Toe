@@ -25,12 +25,36 @@ function createGameboard () {
     const inputMarker = (position, player) => {
             board[position] = player;
     };
+
+    const checkForWin = () => {
+        let didTheyWin = false;
+
+        for(let i = 0 ; i <= 7 ; i++){
+            const winningComboCheck = winningCombos[i];
+            let a = board[winningComboCheck[0]];
+            let b = board[winningComboCheck[1]];
+            let c = board[winningComboCheck[2]];
+
+            console.log(a);
+            console.log(b);
+            console.log(c);
+
+            if( a === 0 || b === 0 || c === 0 ){
+                continue
+            } else if( a === b && b === c) {
+                didTheyWin = true;
+            }
+        }
+
+        console.log(didTheyWin)
+        return didTheyWin;
+    }
     
     const printBoard = () => {
         console.log(getBoard());
     }
 
-    return {getBoard,inputMarker, printBoard};
+    return {getBoard,inputMarker, checkForWin, printBoard};
 }
 
 function GameController(playerOne = "Player One", playerTwo = "Player Two"){
@@ -67,18 +91,18 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
 
     const playRound = (position) => {
         if (board.getBoard()[position] === 0) {
-        board.inputMarker(position, getActivePlayer().token)
-        switchPlayerTurn();
-        printNewRound();
+            board.inputMarker(position, getActivePlayer().token)
+            let checkWin = board.checkForWin();
+            if(checkWin === false ){
+                switchPlayerTurn();
+                printNewRound();
+            } else {
+                console.log("whoohoo! you won!")
+            }
         } else {
             console.log("Whoops, this spots already taken. Try again!")
             return
         }
-
-        for(let i = 0; i <=7; i++){
-
-        }
-
     }
 
     printNewRound();
