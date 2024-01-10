@@ -116,9 +116,11 @@ boardBox.forEach((item)=>{
 
 function setOpeningMessage(){
     let welcomeMessage = document.getElementById('welcomeMessage');
-    let openingMessage = "Hello Gamers";
+    let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
+    let gamePlayMessage = "Tic Tac Toe"
 
-    function printHelloGamers(){
+
+    const printOpeningMessage = ()=>{
         let count = 0;
 
         let intervalID = setInterval(() => {
@@ -126,12 +128,22 @@ function setOpeningMessage(){
             count++;
             if(count === openingMessage.length){
                 clearInterval(intervalID);
+                setInterval(()=>{
+                    welcomeMessage.innerHTML=gamePlayMessage;
+                },3000)
             }
-        },350)
+        },50)
     }
-    return{printHelloGamers}
+
+    const startMessages = ()=> {        
+        printOpeningMessage()
+        };
+    
+
+
+    return{startMessages}
 }
 
 const message = setOpeningMessage();
 
-window.addEventListener("load", message.printHelloGamers());
+window.addEventListener("load", message.startMessages());
