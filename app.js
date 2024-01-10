@@ -139,8 +139,6 @@ function setOpeningMessage(){
         printOpeningMessage()
         };
     
-
-
     return{startMessages}
 }
 
