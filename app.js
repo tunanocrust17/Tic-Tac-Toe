@@ -113,3 +113,20 @@ boardBox.forEach((item)=>{
         game.playRound(clickedBox);
     })
 })
+
+let welcomeMessage = document.getElementById('welcomeMessage');
+let openingMessage = "Hello Gamers";
+
+function printWordByLetter(){
+    let count = 0;
+
+    let intervalID = setInterval(() => {
+        welcomeMessage.innerHTML += openingMessage.charAt(count);
+        count++;
+        if(count === openingMessage.length){
+            clearInterval(intervalID);
+        }
+    },200)
+}
+
+window.addEventListener("load", printWordByLetter);
