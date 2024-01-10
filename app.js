@@ -114,19 +114,24 @@ boardBox.forEach((item)=>{
     })
 })
 
-let welcomeMessage = document.getElementById('welcomeMessage');
-let openingMessage = "Hello Gamers";
+function setOpeningMessage(){
+    let welcomeMessage = document.getElementById('welcomeMessage');
+    let openingMessage = "Hello Gamers";
 
-function printWordByLetter(){
-    let count = 0;
+    function printHelloGamers(){
+        let count = 0;
 
-    let intervalID = setInterval(() => {
-        welcomeMessage.innerHTML += openingMessage.charAt(count);
-        count++;
-        if(count === openingMessage.length){
-            clearInterval(intervalID);
-        }
-    },200)
+        let intervalID = setInterval(() => {
+            welcomeMessage.innerHTML += openingMessage.charAt(count);
+            count++;
+            if(count === openingMessage.length){
+                clearInterval(intervalID);
+            }
+        },350)
+    }
+    return{printHelloGamers}
 }
 
-window.addEventListener("load", printWordByLetter);
+const message = setOpeningMessage();
+
+window.addEventListener("load", message.printHelloGamers());
