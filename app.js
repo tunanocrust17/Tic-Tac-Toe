@@ -1,12 +1,3 @@
-let boardBox = document.querySelectorAll('.box');
-
-boardBox.forEach((item)=>{
-    item.addEventListener('click', (e)=>{
-        const clickedBox = e.target.id;
-        game.playRound(clickedBox);
-    })
-})
-
 function createGameboard () {
     const board = [0,0,0,0,0,0,0,0,0];
 
@@ -112,3 +103,13 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
 }
 
 const game = GameController();
+
+let boardBox = document.querySelectorAll('.box');
+
+boardBox.forEach((item)=>{
+    item.addEventListener('click', (e)=>{
+        const clickedBox = e.target.id;
+        item.innerHTML = game.getActivePlayer().token;
+        game.playRound(clickedBox);
+    })
+})
