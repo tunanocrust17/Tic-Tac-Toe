@@ -1,3 +1,12 @@
+body{
+    margin: 0;
+}
+
+header, .container{
+    display: flex;
+    justify-content: center;
+}
+
 .firstRow, .secondRow, .thirdRow {
     display: flex;
     flex-direction: row;
@@ -5,7 +14,8 @@
 
 .box {
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     border: 1px solid black;
     height: 50px;
     width: 50px;
