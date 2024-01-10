@@ -65,11 +65,11 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     const players = [
         {
             name: playerOne,
-            token: 1,
+            token: "X",
         },
         {
             name: playerTwo,
-            token: 2,
+            token: "O",
         }
     ];
 
@@ -98,7 +98,7 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
                 switchPlayerTurn();
                 printNewRound();
             } else {
-                console.log("whoohoo! you won!")
+                console.log(`whoohoo! ${getActivePlayer().name} you won!`)
             }
         } else {
             console.log("Whoops, this spots already taken. Try again!")
