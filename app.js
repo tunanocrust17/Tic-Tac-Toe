@@ -104,18 +104,25 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
 
 const game = GameController();
 
-let boardBox = document.querySelectorAll('.box');
-
-boardBox.forEach((item)=>{
-    item.addEventListener('click', (e)=>{
+const domControl = {
+    box: document.querySelectorAll('.box'),
+    welcomeMessage: document.getElementById('welcomeMessage'),
+    insertToken: function(e){
         const clickedBox = e.target.id;
-        item.innerHTML = game.getActivePlayer().token;
+        this.innerHTML = game.getActivePlayer().token;
         game.playRound(clickedBox);
-    })
-})
+        }
+    }
 
+domControl.box.forEach((item)=>{
+    item.addEventListener('click', domControl.insertToken)
+    })
+
+
+
+
+    
 function setOpeningMessage(){
-    let welcomeMessage = document.getElementById('welcomeMessage');
     let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
     let gamePlayMessage = "Tic Tac Toe"
 
@@ -124,12 +131,12 @@ function setOpeningMessage(){
         let count = 0;
 
         let intervalID = setInterval(() => {
-            welcomeMessage.innerHTML += openingMessage.charAt(count);
+            domControl.welcomeMessage.innerHTML += openingMessage.charAt(count);
             count++;
             if(count === openingMessage.length){
                 clearInterval(intervalID);
                 setInterval(()=>{
-                    welcomeMessage.innerHTML=gamePlayMessage;
+                    domControl.welcomeMessage.innerHTML=gamePlayMessage;
                 },3000)
             }
         },50)
