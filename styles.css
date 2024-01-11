@@ -20,3 +20,8 @@ header, .container{
     height: 50px;
     width: 50px;
 }
+
+.playerNotifications{
+    display: flex;
+    justify-content: center;
+}
