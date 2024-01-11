@@ -51,12 +51,19 @@ function createGameboard () {
         // }
         return didTheyTie;
     }
+
+    const checkIfEmpty = (position) => {
+        if(board[position] != 0){
+            domControl.playerNotification.innerHTML="Whoops, this spots already taken. Try again!";
+            return
+        }
+    }
     
     const printBoard = () => {
         console.log(getBoard());
     }
 
-    return {getBoard,inputMarker, checkForWin, checkForTie, printBoard};
+    return {getBoard,inputMarker, checkForWin, checkForTie, checkIfEmpty, printBoard};
 }
 
 function GameController(playerOne = "Player One", playerTwo = "Player Two"){
@@ -109,8 +116,7 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
             board.inputMarker(position, getActivePlayer().token)
             gameStatus();
         } else {
-            console.log("Whoops, this spots already taken. Try again!")
-            return
+            board.checkIfEmpty(position);
         }
     }
 
@@ -128,7 +134,8 @@ const domControl = {
         const clickedBox = e.target.id;
         this.innerHTML = game.getActivePlayer().token;
         game.playRound(clickedBox);
-        }
+        },
+    playerNotification: document.querySelector('.notificationsH2')
     }
 
 domControl.box.forEach((item)=>{
