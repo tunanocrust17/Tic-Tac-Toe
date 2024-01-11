@@ -41,12 +41,22 @@ function createGameboard () {
         console.log(didTheyWin)
         return didTheyWin;
     }
+
+    const checkForTie = () => {
+        let didTheyTie = board.includes(0);
+        console.log(didTheyTie);
+        console.log("did they tie? " + didTheyTie);
+        // if(a === false){
+        //     didTheyTie = true;
+        // }
+        return didTheyTie;
+    }
     
     const printBoard = () => {
         console.log(getBoard());
     }
 
-    return {getBoard,inputMarker, checkForWin, printBoard};
+    return {getBoard,inputMarker, checkForWin, checkForTie, printBoard};
 }
 
 function GameController(playerOne = "Player One", playerTwo = "Player Two"){
@@ -85,7 +95,10 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         if (board.getBoard()[position] === 0) {
             board.inputMarker(position, getActivePlayer().token)
             let checkWin = board.checkForWin();
-            if(checkWin === false ){
+            let checkTie = board.checkForTie();
+            if(checkTie === false){
+                console.log(`oh dang looks like you tied, play again!`)
+            } else if (checkWin === false ){
                 switchPlayerTurn();
                 printNewRound();
             } else {
@@ -121,7 +134,7 @@ domControl.box.forEach((item)=>{
 
 
 
-    
+
 function setOpeningMessage(){
     let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
     let gamePlayMessage = "Tic Tac Toe"
