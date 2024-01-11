@@ -91,19 +91,23 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         console.log(`${getActivePlayer().name}'s turn!`)
     }
 
+    const gameStatus = () => {
+        let checkWin = board.checkForWin();
+        let checkTie = board.checkForTie();
+        if(checkTie === false){
+            console.log(`oh dang looks like you tied, play again!`)
+        } else if (checkWin === false ){
+            switchPlayerTurn();
+            printNewRound();
+        } else {
+            console.log(`whoohoo! ${getActivePlayer().name} you won!`)
+        }
+    }
+
     const playRound = (position) => {
         if (board.getBoard()[position] === 0) {
             board.inputMarker(position, getActivePlayer().token)
-            let checkWin = board.checkForWin();
-            let checkTie = board.checkForTie();
-            if(checkTie === false){
-                console.log(`oh dang looks like you tied, play again!`)
-            } else if (checkWin === false ){
-                switchPlayerTurn();
-                printNewRound();
-            } else {
-                console.log(`whoohoo! ${getActivePlayer().name} you won!`)
-            }
+            gameStatus();
         } else {
             console.log("Whoops, this spots already taken. Try again!")
             return
