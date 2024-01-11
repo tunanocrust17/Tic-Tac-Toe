@@ -46,9 +46,7 @@ function createGameboard () {
         let didTheyTie = board.includes(0);
         console.log(didTheyTie);
         console.log("did they tie? " + didTheyTie);
-        // if(a === false){
-        //     didTheyTie = true;
-        // }
+        domControl.playerNotification.innerHTML = "Ah it's a tie, play again!";
         return didTheyTie;
     }
 
@@ -106,8 +104,9 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         } else if (checkWin === false ){
             switchPlayerTurn();
             printNewRound();
+            domControl.playerNotification.innerHTML = `${getActivePlayer().name}'s turn`
         } else {
-            console.log(`whoohoo! ${getActivePlayer().name} you won!`)
+            domControl.playerNotification.innerHTML = `whoohoo! ${getActivePlayer().name} you won!`
         }
     }
 
