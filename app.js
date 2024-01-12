@@ -51,10 +51,12 @@ function createGameboard () {
     }
 
     const checkIfEmpty = (position) => {
+        let checkingEmpty = false;
         if(board[position] != 0){
             domControl.playerNotification.innerHTML="Whoops, this spots already taken. Try again!";
-            return
+            checkingEmpty = true;
         }
+        return checkingEmpty;
     }
     
     const printBoard = () => {
@@ -111,11 +113,11 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     }
 
     const playRound = (position) => {
-        if (board.getBoard()[position] === 0) {
+        if(board.checkIfEmpty(position) === true){
+            return
+        } else {
             board.inputMarker(position, getActivePlayer().token)
             gameStatus();
-        } else {
-            board.checkIfEmpty(position);
         }
     }
 
