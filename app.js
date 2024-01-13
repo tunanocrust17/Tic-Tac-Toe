@@ -49,21 +49,12 @@ function createGameboard () {
         domControl.playerNotification.innerHTML = "Ah it's a tie, play again!";
         return didTheyTie;
     }
-
-    const checkIfEmpty = (position) => {
-        let checkingEmpty = false;
-        if(board[position] != 0){
-            domControl.playerNotification.innerHTML="Whoops, this spots already taken. Try again!";
-            checkingEmpty = true;
-        }
-        return checkingEmpty;
-    }
     
     const printBoard = () => {
         console.log(getBoard());
     }
 
-    return {getBoard,inputMarker, checkForWin, checkForTie, checkIfEmpty, printBoard};
+    return {getBoard,inputMarker, checkForWin, checkForTie, printBoard};
 }
 
 function GameController(playerOne = "Player One", playerTwo = "Player Two"){
@@ -113,12 +104,8 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     }
 
     const playRound = (position) => {
-        if(board.checkIfEmpty(position) === true){
-            return
-        } else {
             board.inputMarker(position, getActivePlayer().token)
             gameStatus();
-        }
     }
 
     printNewRound();
@@ -133,8 +120,12 @@ const domControl = {
     welcomeMessage: document.getElementById('welcomeMessage'),
     insertToken: function(e){
         const clickedBox = e.target.id;
+        if(this.innerHTML === "X" || this.innerHTML === "O"){
+            return
+        } else {
         this.innerHTML = game.getActivePlayer().token;
-        game.playRound(clickedBox);
+        game.playRound(clickedBox)
+    }
         },
     playerNotification: document.querySelector('.notificationsH2')
     }
@@ -143,10 +134,7 @@ domControl.box.forEach((item)=>{
     item.addEventListener('click', domControl.insertToken)
     })
 
-
-
-
-
+//setting the opening message **********
 function setOpeningMessage(){
     let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
     let gamePlayMessage = "Tic Tac Toe"
@@ -177,3 +165,4 @@ function setOpeningMessage(){
 const message = setOpeningMessage();
 
 window.addEventListener("load", message.startMessages());
+//******************************** */
