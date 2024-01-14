@@ -77,7 +77,6 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
 
     const checkForTie = () => {
         let didTheyTie = board.getBoard().includes(0);
-        // domControl.playerNotification.innerHTML = "Ah it's a tie, play again!";
         return didTheyTie;
     }
 
@@ -85,7 +84,6 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         let emptyCheck = true;
         if(board.getBoard()[position] != 0){
             emptyCheck = false;
-            // domControl.playerNotification.innerHTML = "whoops this spot is taken!";
         }
         return emptyCheck;
     }
@@ -93,7 +91,6 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     const playRound = (position) => {
             board.inputMarker(position, getActivePlayer().token)
             switchPlayerTurn();
-            // gameStatus();
     }
 
     printNewRound();
@@ -101,7 +98,6 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     return {playRound, getActivePlayer, switchPlayerTurn, checkForWin, checkForTie, checkIfEmpty};
 }
 
-// const game = GameController();
 
 function ControlScreen() {
     const game = GameController();
@@ -109,7 +105,6 @@ function ControlScreen() {
     const box = document.querySelectorAll('.box');
 
     const playerNotification = document.querySelector('.notificationsH2');
-    // const welcomeMessage = document.getElementById('welcomeMessage');
 
     const updateScreen = () => {
         let checkWin = game.checkForWin();
