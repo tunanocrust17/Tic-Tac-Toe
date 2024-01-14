@@ -123,7 +123,6 @@ function ControlScreen() {
         const clickedBox = e.target.id;
         let target = document.getElementById(clickedBox)
         if(game.checkIfEmpty(clickedBox) === true){
-            console.log(this);
             target.innerHTML = game.getActivePlayer().token;
             game.playRound(clickedBox)
             updateScreen();
