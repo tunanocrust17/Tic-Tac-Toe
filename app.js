@@ -113,12 +113,12 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     }
 
     const playRound = (position) => {
-        if(board.checkIfEmpty(position)===false){
-            return
-        } else {
+        // if(board.checkIfEmpty(position)===false){
+        //     return
+        // } else {
             board.inputMarker(position, getActivePlayer().token)
             gameStatus();
-        }
+        // }
     }
 
     printNewRound();
@@ -131,16 +131,7 @@ const game = GameController();
 const domControl = {
     box: document.querySelectorAll('.box'),
     welcomeMessage: document.getElementById('welcomeMessage'),
-    // insertToken: function(e){
-    //     const clickedBox = e.target.id;
-    //     if(this.innerHTML === "X" || this.innerHTML === "O"){
-    //         return
-    //     } else {
-    //     this.innerHTML = game.getActivePlayer().token;
-    //     game.playRound(clickedBox)
-    // }
-    //     },
-    testFunction: function(e){
+    playTheRound: function(e){
         const clickedBox = e.target.id;
         if(game.board.checkIfEmpty(clickedBox) === true){
             this.innerHTML = game.getActivePlayer().token;
@@ -152,12 +143,8 @@ const domControl = {
     playerNotification: document.querySelector('.notificationsH2')
     }
 
-// domControl.box.forEach((item)=>{
-//     item.addEventListener('click', domControl.insertToken)
-//     })
-
     domControl.box.forEach((item)=>{
-        item.addEventListener('click', domControl.testFunction)
+        item.addEventListener('click', domControl.playTheRound)
         })
 
 //setting the opening message **********
