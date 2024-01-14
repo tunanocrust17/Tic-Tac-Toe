@@ -27,25 +27,17 @@ function createGameboard () {
             let b = board[winningComboCheck[1]];
             let c = board[winningComboCheck[2]];
 
-            console.log(a);
-            console.log(b);
-            console.log(c);
-
             if( a === 0 || b === 0 || c === 0 ){
                 continue
             } else if( a === b && b === c) {
                 didTheyWin = true;
             }
         }
-
-        console.log(didTheyWin)
         return didTheyWin;
     }
 
     const checkForTie = () => {
         let didTheyTie = board.includes(0);
-        console.log(didTheyTie);
-        console.log("did they tie? " + didTheyTie);
         domControl.playerNotification.innerHTML = "Ah it's a tie, play again!";
         return didTheyTie;
     }
@@ -107,18 +99,12 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
             switchPlayerTurn();
             printNewRound();
             domControl.playerNotification.innerHTML = `${getActivePlayer().name}'s turn`
-        } else {
-            console.log(`oh dang looks like you tied, play again!`)
-        }
+        } 
     }
 
     const playRound = (position) => {
-        // if(board.checkIfEmpty(position)===false){
-        //     return
-        // } else {
             board.inputMarker(position, getActivePlayer().token)
             gameStatus();
-        // }
     }
 
     printNewRound();
