@@ -91,51 +91,92 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     }
 
 
-    const gameStatus = () => {
-        let checkWin = checkForWin();
-        let checkTie = checkForTie();
-        if(checkWin === true){
-            domControl.playerNotification.innerHTML = `whoohoo! ${getActivePlayer().name} you won!`
-        } else if(checkWin === false && checkTie === true){
-            switchPlayerTurn();
-            printNewRound();
-            domControl.playerNotification.innerHTML = `${getActivePlayer().name}'s turn`
-        } 
-    }
+    // const gameStatus = () => {
+    //     let checkWin = checkForWin();
+    //     let checkTie = checkForTie();
+    //     if(checkWin === true){
+    //         domControl.playerNotification.innerHTML = `whoohoo! ${getActivePlayer().name} you won!`
+    //     } else if(checkWin === false && checkTie === true){
+    //         switchPlayerTurn();
+    //         printNewRound();
+    //         domControl.playerNotification.innerHTML = `${getActivePlayer().name}'s turn`
+    //     } 
+    // }
 
     const playRound = (position) => {
             board.inputMarker(position, getActivePlayer().token)
-            gameStatus();
+            switchPlayerTurn();
+            // gameStatus();
     }
 
     printNewRound();
 
-    return {playRound, getActivePlayer, switchPlayerTurn, board, checkIfEmpty};
+    return {playRound, getActivePlayer, switchPlayerTurn, checkForWin, checkForTie, checkIfEmpty};
 }
 
 const game = GameController();
 
-const domControl = {
-    box: document.querySelectorAll('.box'),
-    welcomeMessage: document.getElementById('welcomeMessage'),
-    playTheRound: function(e){
+function ControlScreen() {
+    const game = GameController();
+
+    const box = document.querySelectorAll('.box');
+
+    const playerNotification = document.querySelector('.notificationsH2');
+    // const welcomeMessage = document.getElementById('welcomeMessage');
+
+    const updateScreen = () => {
+        let checkWin = game.checkForWin();
+        let checkTie = game.checkForTie();
+        if(checkWin === true){
+            playerNotification.innerHTML = `whoohoo! ${game.getActivePlayer().name} you won!`
+        } else if(checkWin === false && checkTie === true){
+            playerNotification.innerHTML = `${game.getActivePlayer().name}'s turn`
+        } 
+    }
+
+    const playTheGame = (e)=>{
         const clickedBox = e.target.id;
+        let target = document.getElementById(clickedBox)
         if(game.checkIfEmpty(clickedBox) === true){
-            this.innerHTML = game.getActivePlayer().token;
+            console.log(this);
+            target.innerHTML = game.getActivePlayer().token;
             game.playRound(clickedBox)
-        } else {
-            return
+            updateScreen();
         }
-    },
+
+    }
+
+    box.forEach((item) => {
+        item.addEventListener('click', playTheGame)
+    })
+
+    return {playTheGame};
+}
+
+ControlScreen();
+
+const domControl = {
+    // box: document.querySelectorAll('.box'),
+    // playTheRound: function(e){
+    //     const clickedBox = e.target.id;
+    //     if(game.checkIfEmpty(clickedBox) === true){
+    //         console.log(this);
+    //         this.innerHTML = game.getActivePlayer().token;
+    //         game.playRound(clickedBox)
+    //     } else {
+    //         return
+    //     }
+    // },
     playerNotification: document.querySelector('.notificationsH2')
     }
 
-    domControl.box.forEach((item)=>{
-        item.addEventListener('click', domControl.playTheRound)
-        })
+    // domControl.box.forEach((item)=>{
+    //     item.addEventListener('click', domControl.playTheRound)
+    //     })
 
 //setting the opening message **********
 function setOpeningMessage(){
+    const  welcomeMessage = document.getElementById('welcomeMessage');
     let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
     let gamePlayMessage = "Tic Tac Toe"
 
@@ -144,12 +185,12 @@ function setOpeningMessage(){
         let count = 0;
 
         let intervalID = setInterval(() => {
-            domControl.welcomeMessage.innerHTML += openingMessage.charAt(count);
+            welcomeMessage.innerHTML += openingMessage.charAt(count);
             count++;
             if(count === openingMessage.length){
                 clearInterval(intervalID);
                 setInterval(()=>{
-                    domControl.welcomeMessage.innerHTML=gamePlayMessage;
+                    welcomeMessage.innerHTML=gamePlayMessage;
                 },3000)
             }
         },50)
