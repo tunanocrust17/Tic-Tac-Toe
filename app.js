@@ -11,16 +11,7 @@ function Gameboard () {
         console.log(getBoard());
     }
 
-    const checkIfEmpty = (position)=>{
-        let emptyCheck = true;
-        if(board[position] != 0){
-            emptyCheck = false;
-            domControl.playerNotification.innerHTML = "whoops this spot is taken!";
-        }
-        return emptyCheck;
-    }
-
-    return {getBoard, inputMarker, checkIfEmpty, printBoard};
+    return {getBoard, inputMarker, printBoard};
 }
 
 function GameController(playerOne = "Player One", playerTwo = "Player Two"){
@@ -90,6 +81,15 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         return didTheyTie;
     }
 
+    const checkIfEmpty = (position)=>{
+        let emptyCheck = true;
+        if(board.getBoard()[position] != 0){
+            emptyCheck = false;
+            domControl.playerNotification.innerHTML = "whoops this spot is taken!";
+        }
+        return emptyCheck;
+    }
+
 
     const gameStatus = () => {
         let checkWin = checkForWin();
@@ -110,7 +110,7 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
 
     printNewRound();
 
-    return {playRound, getActivePlayer, switchPlayerTurn, board};
+    return {playRound, getActivePlayer, switchPlayerTurn, board, checkIfEmpty};
 }
 
 const game = GameController();
@@ -120,7 +120,7 @@ const domControl = {
     welcomeMessage: document.getElementById('welcomeMessage'),
     playTheRound: function(e){
         const clickedBox = e.target.id;
-        if(game.board.checkIfEmpty(clickedBox) === true){
+        if(game.checkIfEmpty(clickedBox) === true){
             this.innerHTML = game.getActivePlayer().token;
             game.playRound(clickedBox)
         } else {
