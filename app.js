@@ -54,7 +54,16 @@ function createGameboard () {
         console.log(getBoard());
     }
 
-    return {getBoard,inputMarker, checkForWin, checkForTie, printBoard};
+    const checkIfEmpty = (position)=>{
+        let emptyCheck = true;
+        if(board[position] != 0){
+            emptyCheck = false;
+            domControl.playerNotification.innerHTML = "whoops this spot is taken!";
+        }
+        return emptyCheck;
+    }
+
+    return {getBoard,inputMarker, checkForWin, checkIfEmpty, checkForTie, printBoard};
 }
 
 function GameController(playerOne = "Player One", playerTwo = "Player Two"){
@@ -92,25 +101,29 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     const gameStatus = () => {
         let checkWin = board.checkForWin();
         let checkTie = board.checkForTie();
-        if(checkTie === false){
-            console.log(`oh dang looks like you tied, play again!`)
-        } else if (checkWin === false ){
+        if(checkWin === true){
+            domControl.playerNotification.innerHTML = `whoohoo! ${getActivePlayer().name} you won!`
+        } else if(checkWin === false && checkTie === true){
             switchPlayerTurn();
             printNewRound();
             domControl.playerNotification.innerHTML = `${getActivePlayer().name}'s turn`
         } else {
-            domControl.playerNotification.innerHTML = `whoohoo! ${getActivePlayer().name} you won!`
+            console.log(`oh dang looks like you tied, play again!`)
         }
     }
 
     const playRound = (position) => {
+        if(board.checkIfEmpty(position)===false){
+            return
+        } else {
             board.inputMarker(position, getActivePlayer().token)
             gameStatus();
+        }
     }
 
     printNewRound();
 
-    return {playRound, getActivePlayer};
+    return {playRound, getActivePlayer, switchPlayerTurn, board};
 }
 
 const game = GameController();
@@ -118,21 +131,34 @@ const game = GameController();
 const domControl = {
     box: document.querySelectorAll('.box'),
     welcomeMessage: document.getElementById('welcomeMessage'),
-    insertToken: function(e){
+    // insertToken: function(e){
+    //     const clickedBox = e.target.id;
+    //     if(this.innerHTML === "X" || this.innerHTML === "O"){
+    //         return
+    //     } else {
+    //     this.innerHTML = game.getActivePlayer().token;
+    //     game.playRound(clickedBox)
+    // }
+    //     },
+    testFunction: function(e){
         const clickedBox = e.target.id;
-        if(this.innerHTML === "X" || this.innerHTML === "O"){
-            return
+        if(game.board.checkIfEmpty(clickedBox) === true){
+            this.innerHTML = game.getActivePlayer().token;
+            game.playRound(clickedBox)
         } else {
-        this.innerHTML = game.getActivePlayer().token;
-        game.playRound(clickedBox)
-    }
-        },
+            return
+        }
+    },
     playerNotification: document.querySelector('.notificationsH2')
     }
 
-domControl.box.forEach((item)=>{
-    item.addEventListener('click', domControl.insertToken)
-    })
+// domControl.box.forEach((item)=>{
+//     item.addEventListener('click', domControl.insertToken)
+//     })
+
+    domControl.box.forEach((item)=>{
+        item.addEventListener('click', domControl.testFunction)
+        })
 
 //setting the opening message **********
 function setOpeningMessage(){
