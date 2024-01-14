@@ -115,6 +115,7 @@ function ControlScreen() {
         let checkWin = game.checkForWin();
         let checkTie = game.checkForTie();
         if(checkWin === true){
+            game.switchPlayerTurn();
             playerNotification.innerHTML = `whoohoo! ${game.getActivePlayer().name} you won!`
         } else if(checkWin === false && checkTie === true){
             playerNotification.innerHTML = `${game.getActivePlayer().name}'s turn`
@@ -129,8 +130,8 @@ function ControlScreen() {
         if(game.checkIfEmpty(clickedBox) === true){
             console.log(this);
             target.innerHTML = game.getActivePlayer().token;
-            updateScreen();
             game.playRound(clickedBox)
+            updateScreen();
         } else if(game.checkIfEmpty(clickedBox) === false){
             playerNotification.innerHTML = "whoops this spot is taken!";
         }
