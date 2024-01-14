@@ -147,24 +147,6 @@ function ControlScreen() {
 
 ControlScreen();
 
-const domControl = {
-    // box: document.querySelectorAll('.box'),
-    // playTheRound: function(e){
-    //     const clickedBox = e.target.id;
-    //     if(game.checkIfEmpty(clickedBox) === true){
-    //         console.log(this);
-    //         this.innerHTML = game.getActivePlayer().token;
-    //         game.playRound(clickedBox)
-    //     } else {
-    //         return
-    //     }
-    // },
-    // playerNotification: document.querySelector('.notificationsH2')
-    }
-
-    // domControl.box.forEach((item)=>{
-    //     item.addEventListener('click', domControl.playTheRound)
-    //     })
 
 //setting the opening message **********
 function setOpeningMessage(){
