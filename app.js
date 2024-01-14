@@ -1,46 +1,11 @@
-function createGameboard () {
+function Gameboard () {
     const board = [0,0,0,0,0,0,0,0,0];
-
-    const winningCombos = [
-        [0,3,6],
-        [1,4,7],
-        [2,5,8],
-        [0,1,2],
-        [3,4,5],
-        [6,7,8],
-        [0,4,8],
-        [2,4,6]
-    ];
 
     const getBoard = () => board;
 
     const inputMarker = (position, player) => {
             board[position] = player;
     };
-
-    const checkForWin = () => {
-        let didTheyWin = false;
-
-        for(let i = 0 ; i <= 7 ; i++){
-            const winningComboCheck = winningCombos[i];
-            let a = board[winningComboCheck[0]];
-            let b = board[winningComboCheck[1]];
-            let c = board[winningComboCheck[2]];
-
-            if( a === 0 || b === 0 || c === 0 ){
-                continue
-            } else if( a === b && b === c) {
-                didTheyWin = true;
-            }
-        }
-        return didTheyWin;
-    }
-
-    const checkForTie = () => {
-        let didTheyTie = board.includes(0);
-        domControl.playerNotification.innerHTML = "Ah it's a tie, play again!";
-        return didTheyTie;
-    }
     
     const printBoard = () => {
         console.log(getBoard());
@@ -55,12 +20,12 @@ function createGameboard () {
         return emptyCheck;
     }
 
-    return {getBoard,inputMarker, checkForWin, checkIfEmpty, checkForTie, printBoard};
+    return {getBoard, inputMarker, checkIfEmpty, printBoard};
 }
 
 function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     
-    const board = createGameboard();
+    const board = Gameboard();
 
     const players = [
         {
@@ -90,9 +55,45 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         console.log(`${getActivePlayer().name}'s turn!`)
     }
 
+    const winningCombos = [
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,4,8],
+        [2,4,6]
+    ];
+
+    const checkForWin = () => {
+        let didTheyWin = false;
+
+        for(let i = 0 ; i <= 7 ; i++){
+            const winningComboCheck = winningCombos[i];
+            let a = board.getBoard()[winningComboCheck[0]];
+            let b = board.getBoard()[winningComboCheck[1]];
+            let c = board.getBoard()[winningComboCheck[2]];
+
+            if( a === 0 || b === 0 || c === 0 ){
+                continue
+            } else if( a === b && b === c) {
+                didTheyWin = true;
+            }
+        }
+        return didTheyWin;
+    }
+
+    const checkForTie = () => {
+        let didTheyTie = board.getBoard().includes(0);
+        domControl.playerNotification.innerHTML = "Ah it's a tie, play again!";
+        return didTheyTie;
+    }
+
+
     const gameStatus = () => {
-        let checkWin = board.checkForWin();
-        let checkTie = board.checkForTie();
+        let checkWin = checkForWin();
+        let checkTie = checkForTie();
         if(checkWin === true){
             domControl.playerNotification.innerHTML = `whoohoo! ${getActivePlayer().name} you won!`
         } else if(checkWin === false && checkTie === true){
