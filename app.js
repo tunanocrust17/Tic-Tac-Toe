@@ -77,7 +77,7 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
 
     const checkForTie = () => {
         let didTheyTie = board.getBoard().includes(0);
-        domControl.playerNotification.innerHTML = "Ah it's a tie, play again!";
+        // domControl.playerNotification.innerHTML = "Ah it's a tie, play again!";
         return didTheyTie;
     }
 
@@ -85,23 +85,10 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
         let emptyCheck = true;
         if(board.getBoard()[position] != 0){
             emptyCheck = false;
-            domControl.playerNotification.innerHTML = "whoops this spot is taken!";
+            // domControl.playerNotification.innerHTML = "whoops this spot is taken!";
         }
         return emptyCheck;
     }
-
-
-    // const gameStatus = () => {
-    //     let checkWin = checkForWin();
-    //     let checkTie = checkForTie();
-    //     if(checkWin === true){
-    //         domControl.playerNotification.innerHTML = `whoohoo! ${getActivePlayer().name} you won!`
-    //     } else if(checkWin === false && checkTie === true){
-    //         switchPlayerTurn();
-    //         printNewRound();
-    //         domControl.playerNotification.innerHTML = `${getActivePlayer().name}'s turn`
-    //     } 
-    // }
 
     const playRound = (position) => {
             board.inputMarker(position, getActivePlayer().token)
@@ -114,7 +101,7 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
     return {playRound, getActivePlayer, switchPlayerTurn, checkForWin, checkForTie, checkIfEmpty};
 }
 
-const game = GameController();
+// const game = GameController();
 
 function ControlScreen() {
     const game = GameController();
@@ -131,7 +118,9 @@ function ControlScreen() {
             playerNotification.innerHTML = `whoohoo! ${game.getActivePlayer().name} you won!`
         } else if(checkWin === false && checkTie === true){
             playerNotification.innerHTML = `${game.getActivePlayer().name}'s turn`
-        } 
+        } else if(checkTie === false){
+            playerNotification.innerHTML = "Ah it's a tie, play again!";
+        }
     }
 
     const playTheGame = (e)=>{
@@ -140,8 +129,10 @@ function ControlScreen() {
         if(game.checkIfEmpty(clickedBox) === true){
             console.log(this);
             target.innerHTML = game.getActivePlayer().token;
-            game.playRound(clickedBox)
             updateScreen();
+            game.playRound(clickedBox)
+        } else if(game.checkIfEmpty(clickedBox) === false){
+            playerNotification.innerHTML = "whoops this spot is taken!";
         }
 
     }
@@ -167,7 +158,7 @@ const domControl = {
     //         return
     //     }
     // },
-    playerNotification: document.querySelector('.notificationsH2')
+    // playerNotification: document.querySelector('.notificationsH2')
     }
 
     // domControl.box.forEach((item)=>{
