@@ -168,6 +168,7 @@ function setOpeningMessage(){
                 clearInterval(intervalID);
                 let newWelcome = setInterval(()=>{
                     welcomeMessage.innerHTML= gamePlayMessage;
+                    getUserNames();
                     clearInterval(newWelcome)
                 },1000)
             }
@@ -238,7 +239,6 @@ function setOpeningMessage(){
 
     const startupScreen = () => {
         printOpeningMessage();
-        getUserNames();
     }
 
     const renderGame = () => {
