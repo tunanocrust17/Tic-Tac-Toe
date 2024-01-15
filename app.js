@@ -101,8 +101,11 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
 
 function ControlScreen() {
     const game = GameController();
-
+    const  welcomeMessage = document.getElementById('welcomeMessage');
+    const container = document.querySelector('.container');
     const box = document.querySelectorAll('.box');
+
+    const bodyTest = document.body;
 
     const playerNotification = document.querySelector('.notificationsH2');
 
@@ -110,6 +113,7 @@ function ControlScreen() {
         let checkWin = game.checkForWin();
         let checkTie = game.checkForTie();
         if(checkWin === true){
+            bodyTest.replaceChildren(welcomeMessage);
             game.switchPlayerTurn();
             playerNotification.innerHTML = `whoohoo! ${game.getActivePlayer().name} you won!`
         } else if(checkWin === false && checkTie === true){
@@ -146,7 +150,12 @@ ControlScreen();
 function setOpeningMessage(){
     const  welcomeMessage = document.getElementById('welcomeMessage');
     let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
-    let gamePlayMessage = "Tic Tac Toe"
+    let gamePlayMessage = "Choose your name:"
+
+    // const newDiv = document.createElement("div");
+
+    // let nameInputField = document.createElement("input")
+    // nameInputField.setAttribute("type", "text");
 
 
     const printOpeningMessage = ()=>{
@@ -159,19 +168,54 @@ function setOpeningMessage(){
                 clearInterval(intervalID);
                 setInterval(()=>{
                     welcomeMessage.innerHTML=gamePlayMessage;
+ 
                 },3000)
             }
         },50)
     }
 
-    const startMessages = ()=> {        
-        printOpeningMessage()
-        };
+    const getUserNames = () => {
+        const newDiv = document.createElement("div");
+
+        //create player one input
+        let playerOneLabel = document.createElement("label");
+        let playerOneText = document.createTextNode("Player One Name:")
+        playerOneLabel.setAttribute("for", "playerOne");
+        playerOneLabel.appendChild(playerOneText);
+        newDiv.appendChild(playerOneLabel);
+        
+        let playerOneInput = document.createElement("input");
+        playerOneInput.setAttribute("type", "text");
+        playerOneInput.setAttribute("id", "playerOne");
+        playerOneInput.setAttribute("placeholder", "Player One")
+        newDiv.appendChild(playerOneInput);
+
+        //create player two input
+        let playerTwoLabel = document.createElement("label");
+        let playerTwoText = document.createTextNode("Player Two Name:")
+        playerTwoLabel.setAttribute("for", "playerTwo");
+        playerTwoLabel.appendChild(playerTwoText);
+        newDiv.appendChild(playerTwoLabel);
+        
+        let playerTwoInput = document.createElement("input");
+        playerTwoInput.setAttribute("type", "text");
+        playerTwoInput.setAttribute("id", "playerTwp");
+        playerTwoInput.setAttribute("placeholder", "Player Two")
+        newDiv.appendChild(playerTwoInput);
+
+        document.body.appendChild(newDiv)
+    }
+
+    const startupScreen = () => {
+        printOpeningMessage();
+        getUserNames();
+    }
+
     
-    return{startMessages}
+    return{startupScreen}
 }
 
 const message = setOpeningMessage();
 
-window.addEventListener("load", message.startMessages());
+window.addEventListener("load", message.startupScreen());
 //******************************** */
