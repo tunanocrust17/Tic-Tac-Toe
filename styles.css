@@ -9,6 +9,8 @@ header, .container{
 }
 
 #welcomeMessage {
+    display: flex;
+    justify-content: center;
     font-size: 5rem;
     color: #F6D776
 }
