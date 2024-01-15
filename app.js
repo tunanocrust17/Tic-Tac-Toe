@@ -166,10 +166,10 @@ function setOpeningMessage(){
             count++;
             if(count === openingMessage.length){
                 clearInterval(intervalID);
-                setInterval(()=>{
-                    welcomeMessage.innerHTML=gamePlayMessage;
- 
-                },3000)
+                let newWelcome = setInterval(()=>{
+                    welcomeMessage.innerHTML= gamePlayMessage;
+                    clearInterval(newWelcome)
+                },1000)
             }
         },50)
     }
@@ -241,6 +241,18 @@ function setOpeningMessage(){
         getUserNames();
     }
 
+    const renderGame = () => {
+        const  welcomeMessage = document.getElementById('welcomeMessage');
+        const bodyTest = document.body;
+        bodyTest.replaceChildren(welcomeMessage);
+        welcomeMessage.innerHTML = "Tic Tac Toe!"
+        console.log('testing')
+    }
+
+    window.addEventListener("DOMContentLoaded", (e) => {
+        const startButton = document.querySelector(".start-btn");
+        startButton.addEventListener('click', renderGame)
+    });
     
     return{startupScreen}
 }
