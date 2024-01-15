@@ -222,6 +222,7 @@ function setOpeningMessage(){
     const createStartButton = ()=>{
         const startButton = document.createElement("button");
         const startTextNode = document.createTextNode("Start Game");
+        startButton.setAttribute("class", "start-btn")
         startButton.setAttribute("type", "submit");
         startButton.appendChild(startTextNode);
 
