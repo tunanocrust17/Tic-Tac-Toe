@@ -175,9 +175,14 @@ function setOpeningMessage(){
     }
 
     const getUserNames = () => {
-        const newDiv = document.createElement("div");
+        const formContainer = document.createElement("div");
+        formContainer.setAttribute("class", "form-container");
 
+
+        const createPlayerOne = ()=>{
         //create player one input
+        const newDiv = document.createElement("div");
+        newDiv.setAttribute("class", "form-row");
         let playerOneLabel = document.createElement("label");
         let playerOneText = document.createTextNode("Player One Name:")
         playerOneLabel.setAttribute("for", "playerOne");
@@ -190,7 +195,14 @@ function setOpeningMessage(){
         playerOneInput.setAttribute("placeholder", "Player One")
         newDiv.appendChild(playerOneInput);
 
+        formContainer.appendChild(newDiv);
+        document.body.appendChild(formContainer);
+    }
+
+        const createPlayerTwo = ()=>{
         //create player two input
+        const newDiv = document.createElement("div");
+        newDiv.setAttribute("class", "form-row");
         let playerTwoLabel = document.createElement("label");
         let playerTwoText = document.createTextNode("Player Two Name:")
         playerTwoLabel.setAttribute("for", "playerTwo");
@@ -203,7 +215,24 @@ function setOpeningMessage(){
         playerTwoInput.setAttribute("placeholder", "Player Two")
         newDiv.appendChild(playerTwoInput);
 
-        document.body.appendChild(newDiv)
+        formContainer.appendChild(newDiv);
+        document.body.appendChild(formContainer);
+    }
+
+    const createStartButton = ()=>{
+        const startButton = document.createElement("button");
+        const startTextNode = document.createTextNode("Start Game");
+        startButton.setAttribute("type", "submit");
+        startButton.appendChild(startTextNode);
+
+
+        formContainer.appendChild(startButton);
+        document.body.appendChild(formContainer);
+    }
+
+        createPlayerOne();
+        createPlayerTwo();
+        createStartButton();
     }
 
     const startupScreen = () => {
