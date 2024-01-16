@@ -14,7 +14,7 @@ function Gameboard () {
     return {getBoard, inputMarker, printBoard};
 }
 
-function GameController(playerOne = "Player One", playerTwo = "Player Two"){
+function GameController(playerOne, playerTwo){
     
     const board = Gameboard();
 
@@ -93,14 +93,18 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
             switchPlayerTurn();
     }
 
-    printNewRound();
+    // printNewRound();
 
     return {playRound, printNewRound, getActivePlayer, switchPlayerTurn, checkForWin, checkForTie, checkIfEmpty};
 }
 
 
 function ControlScreen() {
-    const game = GameController();
+    const playerOneName = document.getElementById('playerOne').value;
+    const playerTwoName = document.getElementById('playerTwo').value;
+    console.log(playerOneName);
+    
+    const game = GameController(playerOneName, playerTwoName);
     // const  welcomeMessage = document.getElementById('welcomeMessage');
     // const container = document.querySelector('.container');
     const box = document.querySelectorAll('.box');
@@ -148,6 +152,8 @@ function ControlScreen() {
 
 //setting the opening message **********
 function setOpeningMessage(){
+    const game = GameController();
+
     const  welcomeMessage = document.getElementById('welcomeMessage');
     let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
     let gamePlayMessage = "Choose your name:"
@@ -165,6 +171,8 @@ function setOpeningMessage(){
                     getUserNames();
                     const startButton = document.querySelector(".start-btn");
                     startButton.addEventListener('click', renderGame)
+                    // const notificationsH2 = document.querySelector('.notificationsH2');
+                    // notificationsH2.innerHTML = `${game.getActivePlayer().name}'s turn`;
                     clearInterval(newWelcome)
                 },1000)
             }
@@ -173,7 +181,7 @@ function setOpeningMessage(){
 
     const getUserNames = () => {
         const formContainer = document.createElement("div");
-        formContainer.setAttribute("class", "form-container");
+        formContainer.setAttribute("id", "form-container");
 
 
         const createPlayerOne = ()=>{
@@ -208,7 +216,7 @@ function setOpeningMessage(){
         
         let playerTwoInput = document.createElement("input");
         playerTwoInput.setAttribute("type", "text");
-        playerTwoInput.setAttribute("id", "playerTwp");
+        playerTwoInput.setAttribute("id", "playerTwo");
         playerTwoInput.setAttribute("placeholder", "Player Two")
         newDiv.appendChild(playerTwoInput);
 
@@ -272,23 +280,18 @@ function setOpeningMessage(){
 
     const renderGame = () => {
         const  welcomeMessage = document.getElementById('welcomeMessage');
-        const bodyTest = document.body;
-        bodyTest.replaceChildren(welcomeMessage);
+
+        const formRow = document.getElementById("form-container");
+        formRow.classList.toggle('inactive')
+        // formRow.style.display = "none";
         welcomeMessage.innerHTML = "Tic Tac Toe!"
         createGameBoard();
         ControlScreen();
+
+
+
         console.log('testing')
     }
-
-    // window.addEventListener("DOMContentLoaded", (e) => {
-    //     const startButton = document.querySelector(".start-btn");
-    //     startButton.addEventListener('click', renderGame)
-    // });
-
-    // window.onload=function(){
-    //     const startButton = document.querySelector(".start-btn");
-    //     startButton.addEventListener('click', renderGame)
-    // }
     
     return{startupScreen}
 }
