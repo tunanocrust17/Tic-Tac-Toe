@@ -101,11 +101,11 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
 
 function ControlScreen() {
     const game = GameController();
-    const  welcomeMessage = document.getElementById('welcomeMessage');
-    const container = document.querySelector('.container');
+    // const  welcomeMessage = document.getElementById('welcomeMessage');
+    // const container = document.querySelector('.container');
     const box = document.querySelectorAll('.box');
 
-    const bodyTest = document.body;
+    // const bodyTest = document.body;
 
     const playerNotification = document.querySelector('.notificationsH2');
 
@@ -113,7 +113,7 @@ function ControlScreen() {
         let checkWin = game.checkForWin();
         let checkTie = game.checkForTie();
         if(checkWin === true){
-            bodyTest.replaceChildren(welcomeMessage);
+            // bodyTest.replaceChildren(welcomeMessage);
             game.switchPlayerTurn();
             playerNotification.innerHTML = `whoohoo! ${game.getActivePlayer().name} you won!`
         } else if(checkWin === false && checkTie === true){
@@ -143,7 +143,7 @@ function ControlScreen() {
     return {playTheGame};
 }
 
-ControlScreen();
+// ControlScreen();
 
 
 //setting the opening message **********
@@ -169,6 +169,8 @@ function setOpeningMessage(){
                 let newWelcome = setInterval(()=>{
                     welcomeMessage.innerHTML= gamePlayMessage;
                     getUserNames();
+                    const startButton = document.querySelector(".start-btn");
+                    startButton.addEventListener('click', renderGame)
                     clearInterval(newWelcome)
                 },1000)
             }
@@ -239,6 +241,31 @@ function setOpeningMessage(){
 
     const startupScreen = () => {
         printOpeningMessage();
+        // getUserNames();
+    }
+
+    const createGameBoard = () => {
+        const container = document.createElement("div");
+        container.setAttribute('class', 'container');
+
+        const newBoard = document.createElement("div");
+        newBoard.setAttribute('class', 'board');
+
+        const boardRow = document.createElement("div");
+        boardRow.setAttribute('class', 'boardRow')
+
+        for( i = 0 ; i <= 8 ; i++){
+            var newDiv = document.createElement("div");
+
+            newDiv.setAttribute('id', i);
+            newDiv.setAttribute("class", "box");
+
+            boardRow.appendChild(newDiv);
+        }
+
+        newBoard.appendChild(boardRow);
+        container.appendChild(newBoard);
+        document.body.appendChild(container);
     }
 
     const renderGame = () => {
@@ -246,13 +273,20 @@ function setOpeningMessage(){
         const bodyTest = document.body;
         bodyTest.replaceChildren(welcomeMessage);
         welcomeMessage.innerHTML = "Tic Tac Toe!"
+        createGameBoard();
+        ControlScreen();
         console.log('testing')
     }
 
-    window.addEventListener("DOMContentLoaded", (e) => {
-        const startButton = document.querySelector(".start-btn");
-        startButton.addEventListener('click', renderGame)
-    });
+    // window.addEventListener("DOMContentLoaded", (e) => {
+    //     const startButton = document.querySelector(".start-btn");
+    //     startButton.addEventListener('click', renderGame)
+    // });
+
+    // window.onload=function(){
+    //     const startButton = document.querySelector(".start-btn");
+    //     startButton.addEventListener('click', renderGame)
+    // }
     
     return{startupScreen}
 }
