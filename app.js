@@ -95,7 +95,7 @@ function GameController(playerOne = "Player One", playerTwo = "Player Two"){
 
     printNewRound();
 
-    return {playRound, getActivePlayer, switchPlayerTurn, checkForWin, checkForTie, checkIfEmpty};
+    return {playRound, printNewRound, getActivePlayer, switchPlayerTurn, checkForWin, checkForTie, checkIfEmpty};
 }
 
 
@@ -131,6 +131,8 @@ function ControlScreen() {
         } else if(game.checkIfEmpty(clickedBox) === false){
             playerNotification.innerHTML = "whoops this spot is taken!";
         }
+
+        console.log(game.printNewRound())
 
     }
 
