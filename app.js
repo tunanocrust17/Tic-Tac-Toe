@@ -105,7 +105,6 @@ function ControlScreen() {
     // const container = document.querySelector('.container');
     const box = document.querySelectorAll('.box');
 
-    // const bodyTest = document.body;
 
     const playerNotification = document.querySelector('.notificationsH2');
 
@@ -113,7 +112,6 @@ function ControlScreen() {
         let checkWin = game.checkForWin();
         let checkTie = game.checkForTie();
         if(checkWin === true){
-            // bodyTest.replaceChildren(welcomeMessage);
             game.switchPlayerTurn();
             playerNotification.innerHTML = `whoohoo! ${game.getActivePlayer().name} you won!`
         } else if(checkWin === false && checkTie === true){
@@ -151,12 +149,6 @@ function setOpeningMessage(){
     const  welcomeMessage = document.getElementById('welcomeMessage');
     let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
     let gamePlayMessage = "Choose your name:"
-
-    // const newDiv = document.createElement("div");
-
-    // let nameInputField = document.createElement("input")
-    // nameInputField.setAttribute("type", "text");
-
 
     const printOpeningMessage = ()=>{
         let count = 0;
@@ -241,7 +233,6 @@ function setOpeningMessage(){
 
     const startupScreen = () => {
         printOpeningMessage();
-        // getUserNames();
     }
 
     const createGameBoard = () => {
@@ -253,6 +244,14 @@ function setOpeningMessage(){
 
         const boardRow = document.createElement("div");
         boardRow.setAttribute('class', 'boardRow')
+
+        const playerNotifications = document.createElement('div');
+        playerNotifications.setAttribute('class', 'playerNotifications');
+
+        const notificationsH2 = document.createElement('h2');
+        notificationsH2.setAttribute('class', 'notificationsH2');
+        playerNotifications.appendChild(notificationsH2);
+
 
         for( i = 0 ; i <= 8 ; i++){
             var newDiv = document.createElement("div");
@@ -266,6 +265,7 @@ function setOpeningMessage(){
         newBoard.appendChild(boardRow);
         container.appendChild(newBoard);
         document.body.appendChild(container);
+        document.body.appendChild(playerNotifications);
     }
 
     const renderGame = () => {
