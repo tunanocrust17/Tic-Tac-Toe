@@ -147,9 +147,6 @@ function ControlScreen() {
     return {playTheGame};
 }
 
-// ControlScreen();
-
-
 //setting the opening message **********
 function setOpeningMessage(){
     const game = GameController();
@@ -171,8 +168,6 @@ function setOpeningMessage(){
                     getUserNames();
                     const startButton = document.querySelector(".start-btn");
                     startButton.addEventListener('click', renderGame)
-                    // const notificationsH2 = document.querySelector('.notificationsH2');
-                    // notificationsH2.innerHTML = `${game.getActivePlayer().name}'s turn`;
                     clearInterval(newWelcome)
                 },1000)
             }
@@ -245,48 +240,63 @@ function setOpeningMessage(){
         printOpeningMessage();
     }
 
-    const createGameBoard = () => {
-        const container = document.createElement("div");
-        container.setAttribute('class', 'container');
+    // const createGameBoard = () => {
+    //     const container = document.createElement("div");
+    //     container.setAttribute('class', 'container');
 
-        const newBoard = document.createElement("div");
-        newBoard.setAttribute('class', 'board');
+    //     const newBoard = document.createElement("div");
+    //     newBoard.setAttribute('class', 'board');
 
-        const boardRow = document.createElement("div");
-        boardRow.setAttribute('class', 'boardRow')
+    //     const boardRow = document.createElement("div");
+    //     boardRow.setAttribute('class', 'boardRow')
 
-        const playerNotifications = document.createElement('div');
-        playerNotifications.setAttribute('class', 'playerNotifications');
+    //     const playerNotifications = document.createElement('div');
+    //     playerNotifications.setAttribute('class', 'playerNotifications');
 
-        const notificationsH2 = document.createElement('h2');
-        notificationsH2.setAttribute('class', 'notificationsH2');
-        playerNotifications.appendChild(notificationsH2);
+    //     const notificationsH2 = document.createElement('h2');
+    //     notificationsH2.setAttribute('class', 'notificationsH2');
+    //     playerNotifications.appendChild(notificationsH2);
 
 
-        for( i = 0 ; i <= 8 ; i++){
-            var newDiv = document.createElement("div");
+    //     for( i = 0 ; i <= 8 ; i++){
+    //         var newDiv = document.createElement("div");
 
-            newDiv.setAttribute('id', i);
-            newDiv.setAttribute("class", "box");
+    //         newDiv.setAttribute('id', i);
+    //         newDiv.setAttribute("class", "box");
 
-            boardRow.appendChild(newDiv);
-        }
+    //         boardRow.appendChild(newDiv);
+    //     }
 
-        newBoard.appendChild(boardRow);
-        container.appendChild(newBoard);
-        document.body.appendChild(container);
-        document.body.appendChild(playerNotifications);
+    //     newBoard.appendChild(boardRow);
+    //     container.appendChild(newBoard);
+    //     document.body.appendChild(container);
+    //     document.body.appendChild(playerNotifications);
+    // }
+
+    const displayToggle = () => {
+        const formContainer = document.getElementById("form-container");
+        const container = document.getElementById("pregame-display");
+
+
+        formContainer.classList.toggle("inactive");
+        container.classList.toggle("inactive");
     }
 
     const renderGame = () => {
         const  welcomeMessage = document.getElementById('welcomeMessage');
 
-        const formRow = document.getElementById("form-container");
-        formRow.classList.toggle('inactive')
+
+
+        // const formRow = document.getElementById("form-container");
+        // formRow.classList.toggle('inactive')
         // formRow.style.display = "none";
+
         welcomeMessage.innerHTML = "Tic Tac Toe!"
-        createGameBoard();
+
+        // createGameBoard();
         ControlScreen();
+        displayToggle();
+        
 
 
 
