@@ -165,7 +165,6 @@ function setOpeningMessage(){
                 clearInterval(intervalID);
                 let newWelcome = setInterval(()=>{
                     welcomeMessage.innerHTML= gamePlayMessage;
-                    getUserNames();
                     const startButton = document.querySelector(".start-btn");
                     startButton.addEventListener('click', renderGame)
                     clearInterval(newWelcome)
@@ -174,67 +173,67 @@ function setOpeningMessage(){
         },50)
     }
 
-    const getUserNames = () => {
-        const formContainer = document.createElement("div");
-        formContainer.setAttribute("id", "form-container");
+    // const getUserNames = () => {
+    //     const formContainer = document.createElement("div");
+    //     formContainer.setAttribute("id", "form-container");
 
 
-        const createPlayerOne = ()=>{
-        //create player one input
-        const newDiv = document.createElement("div");
-        newDiv.setAttribute("class", "form-row");
-        let playerOneLabel = document.createElement("label");
-        let playerOneText = document.createTextNode("Player One Name:")
-        playerOneLabel.setAttribute("for", "playerOne");
-        playerOneLabel.appendChild(playerOneText);
-        newDiv.appendChild(playerOneLabel);
+    //     const createPlayerOne = ()=>{
+    //     //create player one input
+    //     const newDiv = document.createElement("div");
+    //     newDiv.setAttribute("class", "form-row");
+    //     let playerOneLabel = document.createElement("label");
+    //     let playerOneText = document.createTextNode("Player One Name:")
+    //     playerOneLabel.setAttribute("for", "playerOne");
+    //     playerOneLabel.appendChild(playerOneText);
+    //     newDiv.appendChild(playerOneLabel);
         
-        let playerOneInput = document.createElement("input");
-        playerOneInput.setAttribute("type", "text");
-        playerOneInput.setAttribute("id", "playerOne");
-        playerOneInput.setAttribute("placeholder", "Player One")
-        newDiv.appendChild(playerOneInput);
+    //     let playerOneInput = document.createElement("input");
+    //     playerOneInput.setAttribute("type", "text");
+    //     playerOneInput.setAttribute("id", "playerOne");
+    //     playerOneInput.setAttribute("placeholder", "Player One")
+    //     newDiv.appendChild(playerOneInput);
 
-        formContainer.appendChild(newDiv);
-        document.body.appendChild(formContainer);
-    }
+    //     formContainer.appendChild(newDiv);
+    //     document.body.appendChild(formContainer);
+    // }
 
-        const createPlayerTwo = ()=>{
-        //create player two input
-        const newDiv = document.createElement("div");
-        newDiv.setAttribute("class", "form-row");
-        let playerTwoLabel = document.createElement("label");
-        let playerTwoText = document.createTextNode("Player Two Name:")
-        playerTwoLabel.setAttribute("for", "playerTwo");
-        playerTwoLabel.appendChild(playerTwoText);
-        newDiv.appendChild(playerTwoLabel);
+    //     const createPlayerTwo = ()=>{
+    //     //create player two input
+    //     const newDiv = document.createElement("div");
+    //     newDiv.setAttribute("class", "form-row");
+    //     let playerTwoLabel = document.createElement("label");
+    //     let playerTwoText = document.createTextNode("Player Two Name:")
+    //     playerTwoLabel.setAttribute("for", "playerTwo");
+    //     playerTwoLabel.appendChild(playerTwoText);
+    //     newDiv.appendChild(playerTwoLabel);
         
-        let playerTwoInput = document.createElement("input");
-        playerTwoInput.setAttribute("type", "text");
-        playerTwoInput.setAttribute("id", "playerTwo");
-        playerTwoInput.setAttribute("placeholder", "Player Two")
-        newDiv.appendChild(playerTwoInput);
+    //     let playerTwoInput = document.createElement("input");
+    //     playerTwoInput.setAttribute("type", "text");
+    //     playerTwoInput.setAttribute("id", "playerTwo");
+    //     playerTwoInput.setAttribute("placeholder", "Player Two")
+    //     newDiv.appendChild(playerTwoInput);
 
-        formContainer.appendChild(newDiv);
-        document.body.appendChild(formContainer);
-    }
+    //     formContainer.appendChild(newDiv);
+    //     document.body.appendChild(formContainer);
+    // }
 
-    const createStartButton = ()=>{
-        const startButton = document.createElement("button");
-        const startTextNode = document.createTextNode("Start Game");
-        startButton.setAttribute("class", "start-btn")
-        startButton.setAttribute("type", "submit");
-        startButton.appendChild(startTextNode);
+    // const createStartButton = ()=>{
+    //     const startButton = document.createElement("button");
+    //     const startTextNode = document.createTextNode("Start Game");
+    //     startButton.setAttribute("class", "start-btn")
+    //     startButton.setAttribute("type", "submit");
+    //     startButton.appendChild(startTextNode);
 
 
-        formContainer.appendChild(startButton);
-        document.body.appendChild(formContainer);
-    }
+    //     formContainer.appendChild(startButton);
+    //     document.body.appendChild(formContainer);
+    // }
 
-        createPlayerOne();
-        createPlayerTwo();
-        createStartButton();
-    }
+    //     createPlayerOne();
+    //     createPlayerTwo();
+    //     createStartButton();
+    // }
 
     const startupScreen = () => {
         printOpeningMessage();
@@ -274,8 +273,8 @@ function setOpeningMessage(){
     // }
 
     const displayToggle = () => {
-        const formContainer = document.getElementById("form-container");
-        const container = document.getElementById("pregame-display");
+        const formContainer = document.getElementById("pregame-display");
+        const container = document.getElementById("game-display");
 
 
         formContainer.classList.toggle("inactive");
