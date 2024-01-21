@@ -79,6 +79,10 @@ h2, label {
     color: #97FEED;
     font-size: 2rem;
 }
+.reset-button-container {
+    display: flex;
+    justify-content: center;
+}
 
 .inactive {
     display: none;
