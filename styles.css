@@ -39,6 +39,14 @@ input {
     border-radius:  25px;
 }
 
+button {
+    background-color: #97FEED;
+    color: #071952;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 1.5rem;
+}
+
 .boardRow {
     display: flex;
     justify-content: center;
