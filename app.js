@@ -1,210 +1,220 @@
-function Gameboard () {
-    const board = [0,0,0,0,0,0,0,0,0];
-
-    const getBoard = () => board;
-
-    const inputMarker = (position, player) => {
-            board[position] = player;
-    };
+const gametime = (() => {
+    function Gameboard () {
+        const board = [0,0,0,0,0,0,0,0,0];
     
-    const printBoard = () => {
-        console.log(getBoard());
+        const getBoard = () => board;
+    
+        const inputMarker = (position, player) => {
+                board[position] = player;
+        };
+        
+        const printBoard = () => {
+            console.log(getBoard());
+        }
+    
+        return {getBoard, 
+            inputMarker, 
+            printBoard};
     }
 
-    return {getBoard, 
-        inputMarker, 
-        printBoard};
-}
+    function GameController (playerOne, playerTwo){
+        
+        const board = Gameboard();
 
-function GameController(playerOne, playerTwo){
-    
-    const board = Gameboard();
+        const players = [
+            {
+                name: playerOne,
+                token: "X",
+            },
+            {
+                name: playerTwo,
+                token: "O",
+            }
+        ];
 
-    const players = [
-        {
-            name: playerOne,
-            token: "X",
-        },
-        {
-            name: playerTwo,
-            token: "O",
+        let currentPlayer = players[0];
+
+        const switchPlayerTurn = () => {
+            if (currentPlayer === players[0]){
+                currentPlayer = players[1]
+            } else{
+                currentPlayer = players[0]
+            }
+        };
+
+        const getActivePlayer = () => currentPlayer;
+
+        const printNewRound = () => {
+            board.printBoard();
+            console.log(`${getActivePlayer().name}'s turn!`)
         }
-    ];
 
-    let currentPlayer = players[0];
+        const winningCombos = [
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,4,8],
+            [2,4,6]
+        ];
 
-    const switchPlayerTurn = () => {
-        if (currentPlayer === players[0]){
-            currentPlayer = players[1]
-        } else{
-            currentPlayer = players[0]
+        const checkForWin = () => {
+            let didTheyWin = false;
+
+            for(let i = 0 ; i <= 7 ; i++){
+                const winningComboCheck = winningCombos[i];
+                let a = board.getBoard()[winningComboCheck[0]];
+                let b = board.getBoard()[winningComboCheck[1]];
+                let c = board.getBoard()[winningComboCheck[2]];
+
+                if( a === 0 || b === 0 || c === 0 ){
+                    continue
+                } else if( a === b && b === c) {
+                    didTheyWin = true;
+                }
+            }
+            return didTheyWin;
         }
+
+        const checkForTie = () => {
+            let didTheyTie = board.getBoard().includes(0);
+            return didTheyTie;
+        }
+
+        const checkIfEmpty = (position)=>{
+            let emptyCheck = true;
+            if(board.getBoard()[position] != 0){
+                emptyCheck = false;
+            }
+            return emptyCheck;
+        }
+
+        const playRound = (position) => {
+                board.inputMarker(position, getActivePlayer().token)
+                switchPlayerTurn();
+        }
+
+        return {playRound, 
+            printNewRound, 
+            getActivePlayer, 
+            switchPlayerTurn, 
+            checkForWin, 
+            checkForTie, 
+            checkIfEmpty};
     };
 
-    const getActivePlayer = () => currentPlayer;
 
-    const printNewRound = () => {
-        board.printBoard();
-        console.log(`${getActivePlayer().name}'s turn!`)
-    }
+    function ControlScreen () {
+        const playerOneName = document.getElementById('playerOne').value;
+        const playerTwoName = document.getElementById('playerTwo').value;
+        console.log(playerOneName);
+        
+        const game = GameController(playerOneName, playerTwoName);
 
-    const winningCombos = [
-        [0,3,6],
-        [1,4,7],
-        [2,5,8],
-        [0,1,2],
-        [3,4,5],
-        [6,7,8],
-        [0,4,8],
-        [2,4,6]
-    ];
 
-    const checkForWin = () => {
-        let didTheyWin = false;
+        // const playerOneName = document.getElementById('playerOne').value;
+        // const playerTwoName = document.getElementById('playerTwo').value;
 
-        for(let i = 0 ; i <= 7 ; i++){
-            const winningComboCheck = winningCombos[i];
-            let a = board.getBoard()[winningComboCheck[0]];
-            let b = board.getBoard()[winningComboCheck[1]];
-            let c = board.getBoard()[winningComboCheck[2]];
+        // GameController(playerOneName, playerTwoName);
 
-            if( a === 0 || b === 0 || c === 0 ){
-                continue
-            } else if( a === b && b === c) {
-                didTheyWin = true;
+        const box = document.querySelectorAll('.box');
+
+
+        const playerNotification = document.querySelector('.notificationsH2');
+
+        const updateScreen = () => {
+            let checkWin = game.checkForWin();
+            let checkTie = game.checkForTie();
+            if(checkWin === true){
+                game.switchPlayerTurn();
+                playerNotification.innerHTML = `whoohoo! ${game.getActivePlayer().name} you won!`
+            } else if(checkWin === false && checkTie === true){
+                playerNotification.innerHTML = `${game.getActivePlayer().name}'s turn`
+            } else if(checkTie === false){
+                playerNotification.innerHTML = "Ah it's a tie, play again!";
             }
         }
-        return didTheyWin;
-    }
 
-    const checkForTie = () => {
-        let didTheyTie = board.getBoard().includes(0);
-        return didTheyTie;
-    }
+        const playTheGame = (e)=>{
+            const clickedBox = e.target.id;
+            let target = document.getElementById(clickedBox)
+            if(game.checkIfEmpty(clickedBox) === true){
+                target.innerHTML = game.getActivePlayer().token;
+                game.playRound(clickedBox)
+                updateScreen();
+            } else if(game.checkIfEmpty(clickedBox) === false){
+                playerNotification.innerHTML = "whoops this spot is taken!";
+            }
 
-    const checkIfEmpty = (position)=>{
-        let emptyCheck = true;
-        if(board.getBoard()[position] != 0){
-            emptyCheck = false;
-        }
-        return emptyCheck;
-    }
+            console.log(game.printNewRound())
 
-    const playRound = (position) => {
-            board.inputMarker(position, getActivePlayer().token)
-            switchPlayerTurn();
-    }
-
-    return {playRound, 
-        printNewRound, 
-        getActivePlayer, 
-        switchPlayerTurn, 
-        checkForWin, 
-        checkForTie, 
-        checkIfEmpty};
-}
-
-
-function ControlScreen() {
-    const playerOneName = document.getElementById('playerOne').value;
-    const playerTwoName = document.getElementById('playerTwo').value;
-    console.log(playerOneName);
-    
-    const game = GameController(playerOneName, playerTwoName);
-
-    const box = document.querySelectorAll('.box');
-
-
-    const playerNotification = document.querySelector('.notificationsH2');
-
-    const updateScreen = () => {
-        let checkWin = game.checkForWin();
-        let checkTie = game.checkForTie();
-        if(checkWin === true){
-            game.switchPlayerTurn();
-            playerNotification.innerHTML = `whoohoo! ${game.getActivePlayer().name} you won!`
-        } else if(checkWin === false && checkTie === true){
-            playerNotification.innerHTML = `${game.getActivePlayer().name}'s turn`
-        } else if(checkTie === false){
-            playerNotification.innerHTML = "Ah it's a tie, play again!";
-        }
-    }
-
-    const playTheGame = (e)=>{
-        const clickedBox = e.target.id;
-        let target = document.getElementById(clickedBox)
-        if(game.checkIfEmpty(clickedBox) === true){
-            target.innerHTML = game.getActivePlayer().token;
-            game.playRound(clickedBox)
-            updateScreen();
-        } else if(game.checkIfEmpty(clickedBox) === false){
-            playerNotification.innerHTML = "whoops this spot is taken!";
         }
 
-        console.log(game.printNewRound())
+        box.forEach((item) => {
+            item.addEventListener('click', playTheGame)
+        })
 
-    }
-
-    box.forEach((item) => {
-        item.addEventListener('click', playTheGame)
-    })
-
-    return {playTheGame};
-}
+        return {playTheGame};
+    };
 
 //Openning message, and starting game with displayToggle **********
-function setOpeningMessage(){
-    const game = GameController();
+    function setOpeningMessage () {
+        // const game = GameController();
 
-    const  welcomeMessage = document.getElementById('welcomeMessage');
-    let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
-    let gamePlayMessage = "Choose your name:"
-
-    const printOpeningMessage = ()=>{
-        let count = 0;
-
-        let intervalID = setInterval(() => {
-            welcomeMessage.innerHTML += openingMessage.charAt(count);
-            count++;
-            if(count === openingMessage.length){
-                clearInterval(intervalID);
-                let newWelcome = setInterval(()=>{
-                    welcomeMessage.innerHTML= gamePlayMessage;
-                    const startButton = document.querySelector(".start-btn");
-                    startButton.addEventListener('click', renderGame)
-                    clearInterval(newWelcome)
-                },1000)
-            }
-        },50)
-    }
-
-    const startupScreen = () => {
-        printOpeningMessage();
-    }
-
-
-    const displayToggle = () => {
-        const formContainer = document.getElementById("pregame-display");
-        const container = document.getElementById("game-display");
-
-
-        formContainer.classList.toggle("inactive");
-        container.classList.toggle("inactive");
-    }
-
-    const renderGame = () => {
         const  welcomeMessage = document.getElementById('welcomeMessage');
+        let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
+        let gamePlayMessage = "Choose your name:"
 
-        welcomeMessage.innerHTML = "Tic Tac Toe!"
+        const printOpeningMessage = ()=>{
+            let count = 0;
 
-        ControlScreen();
-        displayToggle();
-    }
+            let intervalID = setInterval(() => {
+                welcomeMessage.innerHTML += openingMessage.charAt(count);
+                count++;
+                if(count === openingMessage.length){
+                    clearInterval(intervalID);
+                    let newWelcome = setInterval(()=>{
+                        welcomeMessage.innerHTML= gamePlayMessage;
+                        const startButton = document.querySelector(".start-btn");
+                        startButton.addEventListener('click', renderGame)
+                        clearInterval(newWelcome)
+                    },1000)
+                }
+            },50)
+        }
+
+        const startupScreen = () => {
+            printOpeningMessage();
+        }
+
+
+        const displayToggle = () => {
+            const formContainer = document.getElementById("pregame-display");
+            const container = document.getElementById("game-display");
+
+
+            formContainer.classList.toggle("inactive");
+            container.classList.toggle("inactive");
+        }
+
+        const renderGame = () => {
+            const  welcomeMessage = document.getElementById('welcomeMessage');
+
+            welcomeMessage.innerHTML = "Tic Tac Toe!"
+
+            ControlScreen();
+            displayToggle();
     
-    return{startupScreen}
-}
+        }
+        
+        return{startupScreen}
+
+    };
 
 const message = setOpeningMessage();
 
 window.addEventListener("load", message.startupScreen());
+})();
 //******************************** */
