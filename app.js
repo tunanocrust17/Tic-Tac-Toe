@@ -1,6 +1,6 @@
 const gametime = (() => {
     const Gameboard = (() => {
-        const board = [0,0,0,0,0,0,0,0,0];
+        let board = [0,0,0,0,0,0,0,0,0];
     
         const getBoard = () => board;
     
@@ -11,10 +11,27 @@ const gametime = (() => {
         const printBoard = () => {
             console.log(getBoard());
         }
+
+        const box = document.querySelectorAll('.box');
+
+        const resetGame = () => {
+            
+            for(let i = 0; i < board.length ; i++) {
+                board[i] = 0
+            }
+
+            box.forEach((item) => {
+                item.innerHTML = "";
+            })
+            Gameboard.printBoard(); 
+        }
+
     
-        return {getBoard, 
+        return {
+            getBoard, 
             inputMarker, 
-            printBoard};
+            printBoard,
+            resetGame};
     })();
 
     const GameController = ((playerOne, playerTwo) => {
@@ -23,10 +40,12 @@ const gametime = (() => {
             {
                 name: playerOne,
                 token: "X",
+                score: 0,
             },
             {
                 name: playerTwo,
                 token: "O",
+                score: 0,
             }
         ];
 
@@ -126,19 +145,11 @@ const gametime = (() => {
 
             
             displayToggle();
+            setScoreHeading();
 
         }
 
-        const startButton = document.querySelector(".start-btn");
-        startButton.addEventListener('click', renderGame)
-
-        // const playerOneName = document.getElementById('playerOne').value;
-        // const playerTwoName = document.getElementById('playerTwo').value;
-
-        // GameController(playerOneName, playerTwoName);
-
         const box = document.querySelectorAll('.box');
-
 
         const playerNotification = document.querySelector('.notificationsH2');
 
@@ -148,6 +159,9 @@ const gametime = (() => {
             if(checkWin === true){
                 GameController.switchPlayerTurn();
                 playerNotification.innerHTML = `whoohoo! ${GameController.getActivePlayer().name} you won!`
+                GameController.getActivePlayer().score++;
+                updateScores();
+                console.log(GameController.getActivePlayer().score)
             } else if(checkWin === false && checkTie === true){
                 playerNotification.innerHTML = `${GameController.getActivePlayer().name}'s turn`
             } else if(checkTie === false){
@@ -165,18 +179,36 @@ const gametime = (() => {
             } else if(GameController.checkIfEmpty(clickedBox) === false){
                 playerNotification.innerHTML = "whoops this spot is taken!";
             }
-
-            console.log(GameController.printNewRound())
-
         }
 
         box.forEach((item) => {
             item.addEventListener('click', playTheGame)
         })
 
-        const resetGame = () => {
+        const setScoreHeading = () => {
+            const playerOneHeading = document.querySelector('.playerOneHeading');
+            playerOneHeading.innerHTML = `${GameController.players[0].name}'s Score`
 
+            const playerTwoHeading = document.querySelector('.playerTwoHeading');
+            playerTwoHeading.innerHTML = `${GameController.players[1].name}'s Score`
         }
+
+        const updateScores = () => {
+            const playerOneScore = document.querySelector('.playerOneScore');
+            playerOneScore.innerHTML = GameController.players[0].score;
+
+            const playerTwoScore = document.querySelector('.playerTwoScore');
+            playerTwoScore.innerHTML = GameController.players[1].score;
+        }
+
+        const startButton = document.querySelector(".start-btn");
+        startButton.addEventListener('click', renderGame)
+
+        const resetBtn = document.getElementById('reset-btn');
+        resetBtn.addEventListener('click', (e) => {
+            Gameboard.resetGame();
+            playerNotification.innerHTML = "Remember X goes first!"
+        })
 
         return {playTheGame};
     })();
