@@ -17,7 +17,7 @@ const gametime = (() => {
             printBoard};
     }
 
-    function GameController (playerOne, playerTwo){
+    const GameController = ((playerOne, playerTwo)=>{
         
         const board = Gameboard();
 
@@ -96,23 +96,43 @@ const gametime = (() => {
                 switchPlayerTurn();
         }
 
-        return {playRound, 
+        return {players,
+            playRound, 
             printNewRound, 
             getActivePlayer, 
             switchPlayerTurn, 
             checkForWin, 
             checkForTie, 
             checkIfEmpty};
-    };
+    })();
 
 
-    function ControlScreen () {
-        const playerOneName = document.getElementById('playerOne').value;
-        const playerTwoName = document.getElementById('playerTwo').value;
-        console.log(playerOneName);
+    const ControlScreen = (()=> {
         
-        const game = GameController(playerOneName, playerTwoName);
+        const displayToggle = () => {
+            const formContainer = document.getElementById("pregame-display");
+            const container = document.getElementById("game-display");
 
+
+            formContainer.classList.toggle("inactive");
+            container.classList.toggle("inactive");
+        }
+
+        const renderGame = () => {
+            
+            const  welcomeMessage = document.getElementById('welcomeMessage');
+            welcomeMessage.innerHTML = "Tic Tac Toe!"
+    
+            GameController.players[0].name = document.getElementById('playerOne').value;
+            GameController.players[1].name = document.getElementById('playerTwo').value;
+
+            
+            displayToggle();
+
+        }
+
+        const startButton = document.querySelector(".start-btn");
+        startButton.addEventListener('click', renderGame)
 
         // const playerOneName = document.getElementById('playerOne').value;
         // const playerTwoName = document.getElementById('playerTwo').value;
@@ -125,13 +145,13 @@ const gametime = (() => {
         const playerNotification = document.querySelector('.notificationsH2');
 
         const updateScreen = () => {
-            let checkWin = game.checkForWin();
-            let checkTie = game.checkForTie();
+            let checkWin = GameController.checkForWin();
+            let checkTie = GameController.checkForTie();
             if(checkWin === true){
-                game.switchPlayerTurn();
-                playerNotification.innerHTML = `whoohoo! ${game.getActivePlayer().name} you won!`
+                GameController.switchPlayerTurn();
+                playerNotification.innerHTML = `whoohoo! ${GameController.getActivePlayer().name} you won!`
             } else if(checkWin === false && checkTie === true){
-                playerNotification.innerHTML = `${game.getActivePlayer().name}'s turn`
+                playerNotification.innerHTML = `${GameController.getActivePlayer().name}'s turn`
             } else if(checkTie === false){
                 playerNotification.innerHTML = "Ah it's a tie, play again!";
             }
@@ -140,15 +160,15 @@ const gametime = (() => {
         const playTheGame = (e)=>{
             const clickedBox = e.target.id;
             let target = document.getElementById(clickedBox)
-            if(game.checkIfEmpty(clickedBox) === true){
-                target.innerHTML = game.getActivePlayer().token;
-                game.playRound(clickedBox)
+            if(GameController.checkIfEmpty(clickedBox) === true){
+                target.innerHTML = GameController.getActivePlayer().token;
+                GameController.playRound(clickedBox)
                 updateScreen();
-            } else if(game.checkIfEmpty(clickedBox) === false){
+            } else if(GameController.checkIfEmpty(clickedBox) === false){
                 playerNotification.innerHTML = "whoops this spot is taken!";
             }
 
-            console.log(game.printNewRound())
+            console.log(GameController.printNewRound())
 
         }
 
@@ -157,7 +177,7 @@ const gametime = (() => {
         })
 
         return {playTheGame};
-    };
+    })();
 
 //Openning message, and starting game with displayToggle **********
     function setOpeningMessage () {
@@ -177,8 +197,7 @@ const gametime = (() => {
                     clearInterval(intervalID);
                     let newWelcome = setInterval(()=>{
                         welcomeMessage.innerHTML= gamePlayMessage;
-                        const startButton = document.querySelector(".start-btn");
-                        startButton.addEventListener('click', renderGame)
+
                         clearInterval(newWelcome)
                     },1000)
                 }
@@ -188,30 +207,11 @@ const gametime = (() => {
         const startupScreen = () => {
             printOpeningMessage();
         }
-
-
-        const displayToggle = () => {
-            const formContainer = document.getElementById("pregame-display");
-            const container = document.getElementById("game-display");
-
-
-            formContainer.classList.toggle("inactive");
-            container.classList.toggle("inactive");
-        }
-
-        const renderGame = () => {
-            const  welcomeMessage = document.getElementById('welcomeMessage');
-
-            welcomeMessage.innerHTML = "Tic Tac Toe!"
-
-            ControlScreen();
-            displayToggle();
-    
-        }
         
         return{startupScreen}
 
     };
+
 
 const message = setOpeningMessage();
 
