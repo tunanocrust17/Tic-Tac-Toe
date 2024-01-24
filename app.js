@@ -1,5 +1,5 @@
 const gametime = (() => {
-    function Gameboard () {
+    const Gameboard = (() => {
         const board = [0,0,0,0,0,0,0,0,0];
     
         const getBoard = () => board;
@@ -15,11 +15,9 @@ const gametime = (() => {
         return {getBoard, 
             inputMarker, 
             printBoard};
-    }
+    })();
 
     const GameController = ((playerOne, playerTwo) => {
-        
-        const board = Gameboard();
 
         const players = [
             {
@@ -45,7 +43,7 @@ const gametime = (() => {
         const getActivePlayer = () => currentPlayer;
 
         const printNewRound = () => {
-            board.printBoard();
+            Gameboard.printBoard();
             console.log(`${getActivePlayer().name}'s turn!`)
         }
 
@@ -65,9 +63,9 @@ const gametime = (() => {
 
             for(let i = 0 ; i <= 7 ; i++){
                 const winningComboCheck = winningCombos[i];
-                let a = board.getBoard()[winningComboCheck[0]];
-                let b = board.getBoard()[winningComboCheck[1]];
-                let c = board.getBoard()[winningComboCheck[2]];
+                let a = Gameboard.getBoard()[winningComboCheck[0]];
+                let b = Gameboard.getBoard()[winningComboCheck[1]];
+                let c = Gameboard.getBoard()[winningComboCheck[2]];
 
                 if( a === 0 || b === 0 || c === 0 ){
                     continue
@@ -79,20 +77,20 @@ const gametime = (() => {
         }
 
         const checkForTie = () => {
-            let didTheyTie = board.getBoard().includes(0);
+            let didTheyTie = Gameboard.getBoard().includes(0);
             return didTheyTie;
         }
 
         const checkIfEmpty = (position) => {
             let emptyCheck = true;
-            if(board.getBoard()[position] != 0){
+            if(Gameboard.getBoard()[position] != 0){
                 emptyCheck = false;
             }
             return emptyCheck;
         }
 
         const playRound = (position) => {
-                board.inputMarker(position, getActivePlayer().token)
+                Gameboard.inputMarker(position, getActivePlayer().token)
                 switchPlayerTurn();
         }
 
@@ -175,6 +173,10 @@ const gametime = (() => {
         box.forEach((item) => {
             item.addEventListener('click', playTheGame)
         })
+
+        const resetGame = () => {
+
+        }
 
         return {playTheGame};
     })();
