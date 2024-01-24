@@ -23,6 +23,7 @@ const gametime = (() => {
             box.forEach((item) => {
                 item.innerHTML = "";
             })
+            GameController.checkActivePlayer();
             Gameboard.printBoard(); 
         }
 
@@ -60,6 +61,14 @@ const gametime = (() => {
         };
 
         const getActivePlayer = () => currentPlayer;
+
+        const checkActivePlayer = () => {
+            if (currentPlayer === players[0]){
+                return;
+            } else {
+                currentPlayer = players[0];
+            }
+        }
 
         const printNewRound = () => {
             Gameboard.printBoard();
@@ -120,7 +129,8 @@ const gametime = (() => {
             switchPlayerTurn, 
             checkForWin, 
             checkForTie, 
-            checkIfEmpty};
+            checkIfEmpty,
+            checkActivePlayer};
     })();
 
 
@@ -200,6 +210,13 @@ const gametime = (() => {
             const playerTwoScore = document.querySelector('.playerTwoScore');
             playerTwoScore.innerHTML = GameController.players[1].score;
         }
+
+        const startNewGame = () => {
+            window.location.reload();
+        };
+
+        const newGameButton = document.getElementById('new-game-btn');
+        newGameButton.addEventListener('click', startNewGame);
 
         const startButton = document.querySelector(".start-btn");
         startButton.addEventListener('click', renderGame)
