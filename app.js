@@ -17,7 +17,7 @@ const gametime = (() => {
             printBoard};
     }
 
-    const GameController = ((playerOne, playerTwo)=>{
+    const GameController = ((playerOne, playerTwo) => {
         
         const board = Gameboard();
 
@@ -83,7 +83,7 @@ const gametime = (() => {
             return didTheyTie;
         }
 
-        const checkIfEmpty = (position)=>{
+        const checkIfEmpty = (position) => {
             let emptyCheck = true;
             if(board.getBoard()[position] != 0){
                 emptyCheck = false;
@@ -107,7 +107,7 @@ const gametime = (() => {
     })();
 
 
-    const ControlScreen = (()=> {
+    const ControlScreen = (() => {
         
         const displayToggle = () => {
             const formContainer = document.getElementById("pregame-display");
@@ -157,7 +157,7 @@ const gametime = (() => {
             }
         }
 
-        const playTheGame = (e)=>{
+        const playTheGame = (e) => {
             const clickedBox = e.target.id;
             let target = document.getElementById(clickedBox)
             if(GameController.checkIfEmpty(clickedBox) === true){
@@ -180,14 +180,12 @@ const gametime = (() => {
     })();
 
 //Openning message, and starting game with displayToggle **********
-    function setOpeningMessage () {
-        // const game = GameController();
-
+    const setOpeningMessage = (() => {
         const  welcomeMessage = document.getElementById('welcomeMessage');
         let openingMessage = "Hello Gamers! Let's play Tic Tac Toe!";
         let gamePlayMessage = "Choose your name:"
 
-        const printOpeningMessage = ()=>{
+        const printOpeningMessage = () => {
             let count = 0;
 
             let intervalID = setInterval(() => {
@@ -195,26 +193,17 @@ const gametime = (() => {
                 count++;
                 if(count === openingMessage.length){
                     clearInterval(intervalID);
-                    let newWelcome = setInterval(()=>{
+                    let newWelcome = setInterval(() => {
                         welcomeMessage.innerHTML= gamePlayMessage;
-
                         clearInterval(newWelcome)
                     },1000)
                 }
             },50)
         }
+   
+        window.addEventListener("load", printOpeningMessage());
 
-        const startupScreen = () => {
-            printOpeningMessage();
-        }
-        
-        return{startupScreen}
+    })();
 
-    };
-
-
-const message = setOpeningMessage();
-
-window.addEventListener("load", message.startupScreen());
 })();
 //******************************** */
