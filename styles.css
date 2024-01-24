@@ -79,9 +79,32 @@ h2, label {
     color: #97FEED;
     font-size: 2rem;
 }
-.reset-button-container {
+
+.game-control-container {
     display: flex;
     justify-content: center;
+    gap: 15px;
+}
+
+.play-again-button-container, .newgame-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.score-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    color: #97FEED;
+    font-size: 2rem;
+    padding-bottom: 25px;
+}
+
+.playerOneSection, .playerTwoSection {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .inactive {
